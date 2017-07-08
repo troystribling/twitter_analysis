@@ -36,20 +36,19 @@ xcode-select --install
 ## Create Virtual Environment in Project Directory
 
 ```
-pyenv virtualenv 3.6.1 cryptocoins
+pyenv virtualenv 3.6.1 twitter_analysis
 pyenv local 3.6.1
 ```
 
 ## Activate Virtual Environment
 
 ```
-pyenv activate cryptocoins
+pyenv activate twitter_analysis
 ```
 
 ## Install Packages
 
 ```
-pip install git+ssh://git@github.com/troystribling/autobahn-python.git
 pip install -r requirements.txt
 ```
 
