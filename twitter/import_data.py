@@ -61,10 +61,16 @@ def import_tweets_to_database(local_dir, database_cusror):
         for file_path in os.listdir(os.path.join(local_dir, date_dir)):
             items = read_from_file(file_path)
             for item in data_items:
-                insert_tweet_sql(flatten_tweet(item)s, database_cusror)
+                insert_tweet_sql(flatten_tweet(item), database_cusror)
 
 def flatten_tweet(tweet):
-    hashtags = 
+    hashtags = [hashtag['text'] for harshtag in tweet['entities']['hashtags']]
+    media_urls = [media['media_url'] for media in tweet['entities']['media']]
+    urls = [url['expanded_url'] for url in tweet['entities']['urls']]
+    symbols = [symbol for symbol in tweet['entities']['symbol']]
+    user_mentions_ids = [user_mention['id'] for user_mention in tweet['entities']['user_mentions']]
+    user_mentions_name = [user_mention['name'] for user_mention in tweet['entities']['user_mentions']]
+    user_mentions_screen_name = [user_mention['screen_nam'] for user_mention in tweet['entities']['user_mentions']]
     return {
             'id' : tweet['id'],
             'created_at' : tweet['created_at'],
@@ -74,27 +80,28 @@ def flatten_tweet(tweet):
             'user_name' : tweet['user']['name'],
             'user_screen_name' : tweet['user']['screen_name'],
             'user_lang' : tweet['user']['lang'],
-            'user_mentions_id' : tweet['entities']['user_mentions']['id'],
-            'user_mentions_name' : tweet['entities']['user_mentions']['name'],
-            'user_mentions_screen_name' : tweet['entities']['user_mentions']['screen_name'],
+            'user_mentions_ids' : user_mentions_ids,
+            'user_mentions_names' : user_mentions_name,
+            'user_mentions_screen_names' : user_mentions_screen_name,
             'in_reply_to_status_id' : tweet['in_reply_to_status_id'],
             'in_reply_to_screen_name' : tweet['in_reply_to_screen_name'],
             'retweet_count' : tweet['retweet_count'],
             'favorite_count' : tweet['favorite_count'],
             'followers_count' : tweet['followers_count'],
             'friends_count' : tweet['friends_count'],
-            'hashtags' : tweet[''],
-            'urls' : tweet[''],
-            'media_urls' : tweet[''],
+            'hashtags' : hashtags,
+            'urls' : urls,
+            'symbols' : symbols,
+            'media_urls' : media_urls,
             'text' : tweet['text']
             }
 
 def insert_tweet_sql(tweet):
     sql_insert = "INSERT INTO tweets" \
                     "(" \
-                      "id, created_at, lang, user_id, user_created_at, user_mentions_id, user_mentions_name, " \
-                      "user_mentions_screen_name, in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
-                      "retweet_count, favorite_count, followers_count, hashtags, urls, media_urls, text" \
+                      "id, created_at, lang, user_id, user_created_at, user_mentions_ids, user_mentions_names, " \
+                      "user_mentions_screen_names, in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
+                      "retweet_count, favorite_count, followers_count, hashtags, urls, symbols, media_urls, text" \
                     ") " \
                   "VALUES " \
                     "(" \
@@ -118,6 +125,7 @@ def insert_tweet_sql(tweet):
                         f"{tweet['friends_count']}, " \
                         f"{tweet['hashtags']}, " \
                         f"{tweet['urls']}, " \
+                        f"{tweet['symbols']}, " \
                         f"{tweet['media_urls']}, " \
                         f"{tweet['text']}, " \
                     ");"
