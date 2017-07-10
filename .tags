@@ -9,17 +9,21 @@ boto3	twitter/import_data.py	/^import boto3$/;"	i
 bucket_name	notebooks/import_data_notebook.py	/^bucket_name = 'gly.fish'$/;"	v
 call	twitter/import_data.py	/^from subprocess import call$/;"	i
 date	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
+date_dir	notebooks/import_data_notebook.py	/^date_dir = '20170707'$/;"	v
 daterange	twitter/import_data.py	/^def daterange(date1, date2):$/;"	f
 download_from_s3_to_files	twitter/import_data.py	/^def download_from_s3_to_files(bucket, remote_dir, local_dir, download_limit=None, start_date=None, end_date=None):$/;"	f
 download_limit	notebooks/import_data_notebook.py	/^download_limit = 20$/;"	v
 files	notebooks/import_data_notebook.py	/^files = os.listdir(os.path.join(local_dir, folder_date))$/;"	v
-folder_date	notebooks/import_data_notebook.py	/^folder_date = '20170707'$/;"	v
+flatten_tweet	twitter/import_data.py	/^def flatten_tweet(tweet):$/;"	f
 import_data	notebooks/import_data_notebook.py	/^from twitter import import_data$/;"	i
+import_tweets_to_database	twitter/import_data.py	/^def import_tweets_to_database(local_dir, database_cusror):$/;"	f
+insert_tweet_sql	twitter/import_data.py	/^def insert_tweet_sql(tweet):$/;"	f
 json	twitter/import_data.py	/^import json$/;"	i
 local_dir	notebooks/import_data_notebook.py	/^local_dir = os.path.join(tempdir, 'tweets\/public_stream')$/;"	v
 os	notebooks/import_data_notebook.py	/^%aimport os$/;"	i
 os	twitter/import_data.py	/^import os$/;"	i
 parse	twitter/import_data.py	/^from dateutil.parser import parse$/;"	i
+psycopg2	twitter/import_data.py	/^import psycopg2$/;"	i
 read_from_file	twitter/import_data.py	/^def read_from_file(file_name):$/;"	f
 remote_dir	notebooks/import_data_notebook.py	/^remote_dir = 'tweets\/public_stream'$/;"	v
 step	migrations/20170708_01_IszI3-create-tweets.py	/^from yoyo import step$/;"	i

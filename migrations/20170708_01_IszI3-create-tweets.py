@@ -11,10 +11,12 @@ steps = [
          "("\
            "id BIGINT, " \
            "created_at TIMESTAMP, " \
-           "lang VARCHAR(4), " \
+           "lang VARCHAR(8), " \
            "user_id BIGINT, " \
            "user_created_at TIMESTAMP, " \
            "user_name TEXT, " \
+           "user_screen_name TEXT, " \
+           "user_lang VARCHAR(8), " \
            "user_mentions_id BIGINT[], " \
            "user_mentions_name TEXT[], " \
            "user_mentions_screen_name TEXT[], " \
@@ -24,6 +26,7 @@ steps = [
            "retweet_count BIGINT, " \
            "favorite_count BIGINT, " \
            "followers_count BIGINT, " \
+           "friends_count BIGINT, " \
            "hashtags TEXT[], " \
            "urls TEXT[], " \
            "media_urls TEXT[], " \

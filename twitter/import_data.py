@@ -2,6 +2,7 @@ import tempfile
 import os
 import boto3
 import json
+import psycopg2
 
 from subprocess import call
 from datetime import timedelta, date
@@ -53,3 +54,70 @@ def read_from_file(file_name):
         for line in file:
             items.append(json.loads(line))
     return items
+
+def import_tweets_to_database(local_dir, database_cusror):
+    date_dirs = os.listdir(local_dir)
+    for date_dir in date_dirs:
+        for file_path in os.listdir(os.path.join(local_dir, date_dir)):
+            items = read_from_file(file_path)
+            for item in data_items:
+                insert_tweet_sql(flatten_tweet(item)s, database_cusror)
+
+def flatten_tweet(tweet):
+    hashtags = 
+    return {
+            'id' : tweet['id'],
+            'created_at' : tweet['created_at'],
+            'lang' : tweet['lang'],
+            'user_id' : tweet['user']['id'],
+            'user_created_at' : tweet['user']['created_at'],
+            'user_name' : tweet['user']['name'],
+            'user_screen_name' : tweet['user']['screen_name'],
+            'user_lang' : tweet['user']['lang'],
+            'user_mentions_id' : tweet['entities']['user_mentions']['id'],
+            'user_mentions_name' : tweet['entities']['user_mentions']['name'],
+            'user_mentions_screen_name' : tweet['entities']['user_mentions']['screen_name'],
+            'in_reply_to_status_id' : tweet['in_reply_to_status_id'],
+            'in_reply_to_screen_name' : tweet['in_reply_to_screen_name'],
+            'retweet_count' : tweet['retweet_count'],
+            'favorite_count' : tweet['favorite_count'],
+            'followers_count' : tweet['followers_count'],
+            'friends_count' : tweet['friends_count'],
+            'hashtags' : tweet[''],
+            'urls' : tweet[''],
+            'media_urls' : tweet[''],
+            'text' : tweet['text']
+            }
+
+def insert_tweet_sql(tweet):
+    sql_insert = "INSERT INTO tweets" \
+                    "(" \
+                      "id, created_at, lang, user_id, user_created_at, user_mentions_id, user_mentions_name, " \
+                      "user_mentions_screen_name, in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
+                      "retweet_count, favorite_count, followers_count, hashtags, urls, media_urls, text" \
+                    ") " \
+                  "VALUES " \
+                    "(" \
+                        f"{tweet['id']}, " \
+                        f"{tweet['created_at']}, " \
+                        f"{tweet['lang']}, " \
+                        f"{tweet['user_id']}, " \
+                        f"{tweet['user_created_at']}, " \
+                        f"{tweet['user_name']}, " \
+                        f"{tweet['user_screen_name']}, " \
+                        f"{tweet['user_lang']}, " \
+                        f"{tweet['user_mentions_id']}, " \
+                        f"{tweet['user_mentions_name']}, " \
+                        f"{tweet['user_mentions_screen_name']}, " \
+                        f"{tweet['in_reply_to_status_id']}, " \
+                        f"{tweet['in_reply_to_user_id']}, " \
+                        f"{tweet['in_reply_to_screen_name']}, " \
+                        f"{tweet['retweet_count']}, " \
+                        f"{tweet['favorite_count']}, " \
+                        f"{tweet['followers_count']}, " \
+                        f"{tweet['friends_count']}, " \
+                        f"{tweet['hashtags']}, " \
+                        f"{tweet['urls']}, " \
+                        f"{tweet['media_urls']}, " \
+                        f"{tweet['text']}, " \
+                    ");"

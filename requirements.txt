@@ -9,6 +9,7 @@ decorator==4.0.11
 docutils==0.13.1
 entrypoints==0.2.3
 html5lib==0.999999999
+iniherit==0.3.9
 ipykernel==4.6.1
 ipython==6.1.0
 ipython-genutils==0.2.0
@@ -31,9 +32,11 @@ pandocfilters==1.4.1
 pexpect==4.2.1
 pickleshare==0.7.4
 prompt-toolkit==1.0.14
+psycopg2==2.7.1
 ptyprocess==0.5.2
 Pygments==2.2.0
 python-dateutil==2.6.0
+python-slugify==1.2.4
 pyzmq==16.0.2
 qtconsole==4.3.0
 s3transfer==0.1.10
@@ -44,7 +47,9 @@ testpath==0.3.1
 tornado==4.5.1
 traitlets==4.3.2
 txaio==2.8.0
+Unidecode==0.4.21
 wcwidth==0.1.7
 webencodings==0.5.1
 widgetsnbextension==2.0.0
 yarl==0.11.0
+yoyo-migrations==5.0.5
