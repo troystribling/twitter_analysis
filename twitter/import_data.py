@@ -64,13 +64,25 @@ def import_tweets_to_database(local_dir, database_cusror):
                 insert_tweet_sql(flatten_tweet(item), database_cusror)
 
 def flatten_tweet(tweet):
-    hashtags = [hashtag['text'] for harshtag in tweet['entities']['hashtags']]
-    media_urls = [media['media_url'] for media in tweet['entities']['media']]
-    urls = [url['expanded_url'] for url in tweet['entities']['urls']]
-    symbols = [symbol for symbol in tweet['entities']['symbol']]
-    user_mentions_ids = [user_mention['id'] for user_mention in tweet['entities']['user_mentions']]
-    user_mentions_name = [user_mention['name'] for user_mention in tweet['entities']['user_mentions']]
-    user_mentions_screen_name = [user_mention['screen_nam'] for user_mention in tweet['entities']['user_mentions']]
+    hastags = []
+    if 'hashtags' in tweet['entities']:
+        hashtags = [hashtag['text'] for harshtag in tweet['entities']['hashtags']]
+    media_urls = []
+    if 'media' in tweet['entities']:
+        media_urls = [media['media_url'] for media in tweet['entities']['media']]
+    urls = []
+    if 'urls' in tweet['entities']:
+        urls = [url['expanded_url'] for url in tweet['entities']['urls']]
+    symbols = []
+    if 'symbols' in tweet['entities']:
+        symbols = [symbol['text'] for symbol in tweet['entities']['symbols']]
+    user_mentions_ids = []
+    user_mentions_names = []
+    user_mentions_screen_names = []
+    if 'user_mentions' in tweet['entities']:
+        user_mentions_ids = [user_mention['id'] for user_mention in tweet['entities']['user_mentions']]
+        user_mentions_names = [user_mention['name'] for user_mention in tweet['entities']['user_mentions']]
+        user_mentions_screen_names = [user_mention['screen_name'] for user_mention in tweet['entities']['user_mentions']]
     return {
             'id' : tweet['id'],
             'created_at' : tweet['created_at'],
@@ -81,14 +93,16 @@ def flatten_tweet(tweet):
             'user_screen_name' : tweet['user']['screen_name'],
             'user_lang' : tweet['user']['lang'],
             'user_mentions_ids' : user_mentions_ids,
-            'user_mentions_names' : user_mentions_name,
-            'user_mentions_screen_names' : user_mentions_screen_name,
+            'user_mentions_names' : user_mentions_names,
+            'user_mentions_screen_names' : user_mentions_screen_names,
             'in_reply_to_status_id' : tweet['in_reply_to_status_id'],
+            'in_reply_to_user_id' : tweet['in_reply_to_user_id'],
             'in_reply_to_screen_name' : tweet['in_reply_to_screen_name'],
             'retweet_count' : tweet['retweet_count'],
             'favorite_count' : tweet['favorite_count'],
-            'followers_count' : tweet['followers_count'],
-            'friends_count' : tweet['friends_count'],
+            'followers_count' : tweet['user']['followers_count'],
+            'friends_count' : tweet['user']['friends_count'],
+            'statuses_count' : tweet['user']['statuses_count'],
             'hashtags' : hashtags,
             'urls' : urls,
             'symbols' : symbols,
@@ -97,35 +111,37 @@ def flatten_tweet(tweet):
             }
 
 def insert_tweet_sql(tweet):
-    sql_insert = "INSERT INTO tweets" \
-                    "(" \
-                      "id, created_at, lang, user_id, user_created_at, user_mentions_ids, user_mentions_names, " \
-                      "user_mentions_screen_names, in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
-                      "retweet_count, favorite_count, followers_count, hashtags, urls, symbols, media_urls, text" \
-                    ") " \
-                  "VALUES " \
-                    "(" \
-                        f"{tweet['id']}, " \
-                        f"{tweet['created_at']}, " \
-                        f"{tweet['lang']}, " \
-                        f"{tweet['user_id']}, " \
-                        f"{tweet['user_created_at']}, " \
-                        f"{tweet['user_name']}, " \
-                        f"{tweet['user_screen_name']}, " \
-                        f"{tweet['user_lang']}, " \
-                        f"{tweet['user_mentions_id']}, " \
-                        f"{tweet['user_mentions_name']}, " \
-                        f"{tweet['user_mentions_screen_name']}, " \
-                        f"{tweet['in_reply_to_status_id']}, " \
-                        f"{tweet['in_reply_to_user_id']}, " \
-                        f"{tweet['in_reply_to_screen_name']}, " \
-                        f"{tweet['retweet_count']}, " \
-                        f"{tweet['favorite_count']}, " \
-                        f"{tweet['followers_count']}, " \
-                        f"{tweet['friends_count']}, " \
-                        f"{tweet['hashtags']}, " \
-                        f"{tweet['urls']}, " \
-                        f"{tweet['symbols']}, " \
-                        f"{tweet['media_urls']}, " \
-                        f"{tweet['text']}, " \
-                    ");"
+    return "INSERT INTO tweets" \
+             "(" \
+                "id, created_at, lang, user_id, user_created_at, user_mentions_ids, user_mentions_names, " \
+                "user_mentions_screen_names, in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
+                "retweet_count, favorite_count, followers_count, friends_count, statuses_count, hashtags, urls, " \
+                " symbols, media_urls, text" \
+             ") " \
+             "VALUES " \
+             "(" \
+               f"{tweet['id']}, " \
+               f"{tweet['created_at']}, " \
+               f"{tweet['lang']}, " \
+               f"{tweet['user_id']}, " \
+               f"{tweet['user_created_at']}, " \
+               f"{tweet['user_name']}, " \
+               f"{tweet['user_screen_name']}, " \
+               f"{tweet['user_lang']}, " \
+               f"{tweet['user_mentions_ids']}, " \
+               f"{tweet['user_mentions_names']}, " \
+               f"{tweet['user_mentions_screen_names']}, " \
+               f"{tweet['in_reply_to_status_id']}, " \
+               f"{tweet['in_reply_to_user_id']}, " \
+               f"{tweet['in_reply_to_screen_name']}, " \
+               f"{tweet['retweet_count']}, " \
+               f"{tweet['favorite_count']}, " \
+               f"{tweet['followers_count']}, " \
+               f"{tweet['friends_count']}, " \
+               f"{tweet['statuses_count']}, " \
+               f"{tweet['hashtags']}, " \
+               f"{tweet['urls']}, " \
+               f"{tweet['symbols']}, " \
+               f"{tweet['media_urls']}, " \
+               f"{tweet['text']}, " \
+             ");"

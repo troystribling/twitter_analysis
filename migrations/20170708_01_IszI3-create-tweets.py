@@ -27,6 +27,7 @@ steps = [
            "favorite_count BIGINT, " \
            "followers_count BIGINT, " \
            "friends_count BIGINT, " \
+           "statuses_count BIGINT, " \
            "hashtags TEXT[], " \
            "urls TEXT[], " \
            "symbols TEXT[], " \

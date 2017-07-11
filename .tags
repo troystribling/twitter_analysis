@@ -12,8 +12,9 @@ date	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
 date_dir	notebooks/import_data_notebook.py	/^date_dir = '20170707'$/;"	v
 daterange	twitter/import_data.py	/^def daterange(date1, date2):$/;"	f
 download_from_s3_to_files	twitter/import_data.py	/^def download_from_s3_to_files(bucket, remote_dir, local_dir, download_limit=None, start_date=None, end_date=None):$/;"	f
-download_limit	notebooks/import_data_notebook.py	/^download_limit = 20$/;"	v
-files	notebooks/import_data_notebook.py	/^files = os.listdir(os.path.join(local_dir, folder_date))$/;"	v
+download_limit	notebooks/import_data_notebook.py	/^download_limit = 5$/;"	v
+files	notebooks/import_data_notebook.py	/^files = os.listdir(os.path.join(local_dir, date_dir))$/;"	v
+flat_tweet	notebooks/import_data_notebook.py	/^flat_tweet = import_data.flatten_tweet(tweet)$/;"	v
 flatten_tweet	twitter/import_data.py	/^def flatten_tweet(tweet):$/;"	f
 import_data	notebooks/import_data_notebook.py	/^from twitter import import_data$/;"	i
 import_tweets_to_database	twitter/import_data.py	/^def import_tweets_to_database(local_dir, database_cusror):$/;"	f
@@ -32,5 +33,7 @@ tempdir	notebooks/import_data_notebook.py	/^tempdir = tempfile.gettempdir()$/;"	
 tempfile	notebooks/import_data_notebook.py	/^%aimport tempfile$/;"	i
 tempfile	twitter/import_data.py	/^import tempfile$/;"	i
 timedelta	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
-tweet	notebooks/import_data_notebook.py	/^tweet = tweets[9]$/;"	v
+tweet	notebooks/import_data_notebook.py	/^tweet = tweets[10]$/;"	v
+tweet	notebooks/import_data_notebook.py	/^tweet = tweets[909]$/;"	v
+tweet_insert_sql	notebooks/import_data_notebook.py	/^tweet_insert_sql = import_data.insert_tweet_sql(flat_tweet)$/;"	v
 tweets	notebooks/import_data_notebook.py	/^tweets = import_data.read_from_file(os.path.join(local_dir, folder_date, files[0]))$/;"	v
