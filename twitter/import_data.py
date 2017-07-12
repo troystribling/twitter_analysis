@@ -118,7 +118,7 @@ def insert_tweet_sql(tweet):
                 "retweet_count, favorite_count, followers_count, friends_count, statuses_count, hashtags, urls, " \
                 " symbols, media_urls, text" \
              ") " \
-             "VALUES " \
+           "VALUES " \
              "(" \
                f"{tweet['id']}, " \
                f"{tweet['created_at']}, " \
