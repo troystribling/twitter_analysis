@@ -110,7 +110,15 @@ def flatten_tweet(tweet):
             'text' : tweet['text']
             }
 
+def sql_stringify_array(values):
+    return f"'{{{', '.join([str(x) for x in values])}}}'"
+
+def sql_stringify_str_array(values):
+    return sql_stringify_array(['"'+x+'"' for x in values])
+
 def insert_tweet_sql(tweet):
+    user_mention_ids = f"'{{{', '.join([str(x) for x in tweet['user_mentions_ids']])}}}'"
+    user_mentions_names = f"'{{{', '.join(['x' for x in tweet['user_mentions_names']])}}}'"
     return "INSERT INTO tweets" \
              "(" \
                 "id, created_at, lang, user_id, user_created_at, user_name, user_screen_name, user_lang, "\
@@ -129,9 +137,9 @@ def insert_tweet_sql(tweet):
                f"'{tweet['user_name']}', " \
                f"'{tweet['user_screen_name']}', " \
                f"'{tweet['user_lang']}', " \
-               f"{tweet['user_mentions_ids']}, " \
-               f"{tweet['user_mentions_names']}, " \
-               f"{tweet['user_mentions_screen_names']}, " \
+               f"{sql_stringify_array(tweet['user_mentions_ids'])}, " \
+               f"{sql_stringify_str_array(tweet['user_mentions_names'])}, " \
+               f"{sql_stringify_str_array(tweet['user_mentions_screen_names'])}, " \
                f"{tweet['in_reply_to_status_id']}, " \
                f"{tweet['in_reply_to_user_id']}, " \
                f"'{tweet['in_reply_to_screen_name']}', " \
@@ -140,9 +148,9 @@ def insert_tweet_sql(tweet):
                f"{tweet['followers_count']}, " \
                f"{tweet['friends_count']}, " \
                f"{tweet['statuses_count']}, " \
-               f"{tweet['hashtags']}, " \
-               f"{tweet['urls']}, " \
-               f"{tweet['symbols']}, " \
-               f"{tweet['media_urls']}, " \
+               f"{sql_stringify_str_array(tweet['hashtags'])}, " \
+               f"{sql_stringify_str_array(tweet['urls'])}, " \
+               f"{sql_stringify_str_array(tweet['symbols'])}, " \
+               f"{sql_stringify_str_array(tweet['media_urls'])}, " \
                f"'{tweet['text']}', " \
              ");"

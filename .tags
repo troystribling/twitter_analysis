@@ -27,13 +27,15 @@ parse	twitter/import_data.py	/^from dateutil.parser import parse$/;"	i
 psycopg2	twitter/import_data.py	/^import psycopg2$/;"	i
 read_from_file	twitter/import_data.py	/^def read_from_file(file_name):$/;"	f
 remote_dir	notebooks/import_data_notebook.py	/^remote_dir = 'tweets\/public_stream'$/;"	v
+sql_stringify_array	twitter/import_data.py	/^def sql_stringify_array(values):$/;"	f
+sql_stringify_str_array	twitter/import_data.py	/^def sql_stringify_str_array(values):$/;"	f
 step	migrations/20170708_01_IszI3-create-tweets.py	/^from yoyo import step$/;"	i
 steps	migrations/20170708_01_IszI3-create-tweets.py	/^steps = [$/;"	v
 tempdir	notebooks/import_data_notebook.py	/^tempdir = tempfile.gettempdir()$/;"	v
 tempfile	notebooks/import_data_notebook.py	/^%aimport tempfile$/;"	i
 tempfile	twitter/import_data.py	/^import tempfile$/;"	i
 timedelta	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
-tweet	notebooks/import_data_notebook.py	/^tweet = tweets[10]$/;"	v
+tweet	notebooks/import_data_notebook.py	/^tweet = tweets[101]$/;"	v
 tweet	notebooks/import_data_notebook.py	/^tweet = tweets[909]$/;"	v
 tweet_insert_sql	notebooks/import_data_notebook.py	/^tweet_insert_sql = import_data.insert_tweet_sql(flat_tweet)$/;"	v
 tweets	notebooks/import_data_notebook.py	/^tweets = import_data.read_from_file(os.path.join(local_dir, date_dir, files[0]))$/;"	v
