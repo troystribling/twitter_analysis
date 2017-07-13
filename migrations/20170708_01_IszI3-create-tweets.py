@@ -10,10 +10,10 @@ steps = [
     step("CREATE TABLE tweets " \
          "("\
            "id BIGINT, " \
-           "created_at TIMESTAMP, " \
+           "created_at TIMESTAMP WITH TIME ZONE, " \
            "lang VARCHAR(8), " \
            "user_id BIGINT, " \
-           "user_created_at TIMESTAMP, " \
+           "user_created_at TIMESTAMP WITH TIME ZONE, " \
            "user_name TEXT, " \
            "user_screen_name TEXT, " \
            "user_lang VARCHAR(8), " \

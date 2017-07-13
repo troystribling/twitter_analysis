@@ -27,7 +27,7 @@ tweet['entities']
 local_dir = os.path.join(tempdir, 'tweets/public_stream')
 date_dir = '20170707'
 files = os.listdir(os.path.join(local_dir, date_dir))
-tweets = import_data.read_from_file(os.path.join(local_dir, folder_date, files[0]))
+tweets = import_data.read_from_file(os.path.join(local_dir, date_dir, files[0]))
 tweet = tweets[10]
 tweet
 flat_tweet = import_data.flatten_tweet(tweet)

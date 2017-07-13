@@ -113,27 +113,28 @@ def flatten_tweet(tweet):
 def insert_tweet_sql(tweet):
     return "INSERT INTO tweets" \
              "(" \
-                "id, created_at, lang, user_id, user_created_at, user_mentions_ids, user_mentions_names, " \
-                "user_mentions_screen_names, in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
+                "id, created_at, lang, user_id, user_created_at, user_name, user_screen_name, user_lang, "\
+                "user_mentions_ids, user_mentions_names, user_mentions_screen_names, " \
+                "in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
                 "retweet_count, favorite_count, followers_count, friends_count, statuses_count, hashtags, urls, " \
                 " symbols, media_urls, text" \
              ") " \
            "VALUES " \
              "(" \
                f"{tweet['id']}, " \
-               f"{tweet['created_at']}, " \
-               f"{tweet['lang']}, " \
+               f"'{tweet['created_at']}', " \
+               f"'{tweet['lang']}', " \
                f"{tweet['user_id']}, " \
-               f"{tweet['user_created_at']}, " \
-               f"{tweet['user_name']}, " \
-               f"{tweet['user_screen_name']}, " \
-               f"{tweet['user_lang']}, " \
+               f"'{tweet['user_created_at']}', " \
+               f"'{tweet['user_name']}', " \
+               f"'{tweet['user_screen_name']}', " \
+               f"'{tweet['user_lang']}', " \
                f"{tweet['user_mentions_ids']}, " \
                f"{tweet['user_mentions_names']}, " \
                f"{tweet['user_mentions_screen_names']}, " \
                f"{tweet['in_reply_to_status_id']}, " \
                f"{tweet['in_reply_to_user_id']}, " \
-               f"{tweet['in_reply_to_screen_name']}, " \
+               f"'{tweet['in_reply_to_screen_name']}', " \
                f"{tweet['retweet_count']}, " \
                f"{tweet['favorite_count']}, " \
                f"{tweet['followers_count']}, " \
@@ -143,5 +144,5 @@ def insert_tweet_sql(tweet):
                f"{tweet['urls']}, " \
                f"{tweet['symbols']}, " \
                f"{tweet['media_urls']}, " \
-               f"{tweet['text']}, " \
+               f"'{tweet['text']}', " \
              ");"

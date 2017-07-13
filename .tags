@@ -36,4 +36,5 @@ timedelta	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
 tweet	notebooks/import_data_notebook.py	/^tweet = tweets[10]$/;"	v
 tweet	notebooks/import_data_notebook.py	/^tweet = tweets[909]$/;"	v
 tweet_insert_sql	notebooks/import_data_notebook.py	/^tweet_insert_sql = import_data.insert_tweet_sql(flat_tweet)$/;"	v
+tweets	notebooks/import_data_notebook.py	/^tweets = import_data.read_from_file(os.path.join(local_dir, date_dir, files[0]))$/;"	v
 tweets	notebooks/import_data_notebook.py	/^tweets = import_data.read_from_file(os.path.join(local_dir, folder_date, files[0]))$/;"	v
