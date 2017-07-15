@@ -7,6 +7,7 @@ import psycopg2
 from subprocess import call
 from datetime import timedelta, date
 from dateutil.parser import parse
+from .models import Tweet
 
 def daterange(date1, date2):
     for n in range(int((date2 - date1).days) + 1):
@@ -63,38 +64,33 @@ def import_tweets_to_database(local_dir, database_cusror):
             for item in data_items:
                 insert_tweet_sql(flatten_tweet(item), database_cusror)
 
+def array_field_if_exists(tweet, key1, key2, key3):
+    value = None
+    if key2 in tweet[key1]:
+        temp_value = [hashtags[key3] for hashtags in tweet[key1][key2]]
+        if len(temp_value) > 0:
+            value = temp_value
+    return value
+
 def flatten_tweet(tweet):
-    hastags = []
-    if 'hashtags' in tweet['entities']:
-        hashtags = [hashtag['text'] for harshtag in tweet['entities']['hashtags']]
-    media_urls = []
-    if 'media' in tweet['entities']:
-        media_urls = [media['media_url'] for media in tweet['entities']['media']]
-    urls = []
-    if 'urls' in tweet['entities']:
-        urls = [url['expanded_url'] for url in tweet['entities']['urls']]
-    symbols = []
-    if 'symbols' in tweet['entities']:
-        symbols = [symbol['text'] for symbol in tweet['entities']['symbols']]
-    user_mentions_ids = []
-    user_mentions_names = []
-    user_mentions_screen_names = []
-    if 'user_mentions' in tweet['entities']:
-        user_mentions_ids = [user_mention['id'] for user_mention in tweet['entities']['user_mentions']]
-        user_mentions_names = [user_mention['name'] for user_mention in tweet['entities']['user_mentions']]
-        user_mentions_screen_names = [user_mention['screen_name'] for user_mention in tweet['entities']['user_mentions']]
+    created_at = None
+    if 'created_at' in tweet:
+        created_at = parse(tweet['created_at'])
+    user_created_at = None
+    if 'user_created_at' in tweet['user']:
+        user_created_at = parse(tweet['user']['created_at'])
     return {
             'id' : tweet['id'],
-            'created_at' : tweet['created_at'],
+            'created_at' : created_at,
             'lang' : tweet['lang'],
             'user_id' : tweet['user']['id'],
-            'user_created_at' : tweet['user']['created_at'],
+            'user_created_at' : user_created_at,
             'user_name' : tweet['user']['name'],
             'user_screen_name' : tweet['user']['screen_name'],
             'user_lang' : tweet['user']['lang'],
-            'user_mentions_ids' : user_mentions_ids,
-            'user_mentions_names' : user_mentions_names,
-            'user_mentions_screen_names' : user_mentions_screen_names,
+            'user_mentions_ids' : array_field_if_exists(tweet, 'entities', 'user_mentions', 'id'),
+            'user_mentions_names' : array_field_if_exists(tweet, 'entities', 'user_mentions', 'name'),
+            'user_mentions_screen_names' : array_field_if_exists(tweet, 'entities', 'user_mentions', 'screen_name'),
             'in_reply_to_status_id' : tweet['in_reply_to_status_id'],
             'in_reply_to_user_id' : tweet['in_reply_to_user_id'],
             'in_reply_to_screen_name' : tweet['in_reply_to_screen_name'],
@@ -103,54 +99,9 @@ def flatten_tweet(tweet):
             'followers_count' : tweet['user']['followers_count'],
             'friends_count' : tweet['user']['friends_count'],
             'statuses_count' : tweet['user']['statuses_count'],
-            'hashtags' : hashtags,
-            'urls' : urls,
-            'symbols' : symbols,
-            'media_urls' : media_urls,
+            'hashtags' : array_field_if_exists(tweet, 'entities', 'hashtags', 'text'),
+            'urls' : array_field_if_exists(tweet, 'entities', 'urls', 'expanded_url'),
+            'symbols' : array_field_if_exists(tweet, 'entities', 'symbols', 'text'),
+            'media_urls' : array_field_if_exists(tweet, 'entities', 'media', 'media_url'),
             'text' : tweet['text']
             }
-
-def sql_stringify_array(values):
-    return f"'{{{', '.join([str(x) for x in values])}}}'"
-
-def sql_stringify_str_array(values):
-    return sql_stringify_array(['"'+x+'"' for x in values])
-
-def insert_tweet_sql(tweet):
-    user_mention_ids = f"'{{{', '.join([str(x) for x in tweet['user_mentions_ids']])}}}'"
-    user_mentions_names = f"'{{{', '.join(['x' for x in tweet['user_mentions_names']])}}}'"
-    return "INSERT INTO tweets" \
-             "(" \
-                "id, created_at, lang, user_id, user_created_at, user_name, user_screen_name, user_lang, "\
-                "user_mentions_ids, user_mentions_names, user_mentions_screen_names, " \
-                "in_reply_to_status_id, in_reply_to_user_id, in_reply_to_screen_name, " \
-                "retweet_count, favorite_count, followers_count, friends_count, statuses_count, hashtags, urls, " \
-                " symbols, media_urls, text" \
-             ") " \
-           "VALUES " \
-             "(" \
-               f"{tweet['id']}, " \
-               f"'{tweet['created_at']}', " \
-               f"'{tweet['lang']}', " \
-               f"{tweet['user_id']}, " \
-               f"'{tweet['user_created_at']}', " \
-               f"'{tweet['user_name']}', " \
-               f"'{tweet['user_screen_name']}', " \
-               f"'{tweet['user_lang']}', " \
-               f"{sql_stringify_array(tweet['user_mentions_ids'])}, " \
-               f"{sql_stringify_str_array(tweet['user_mentions_names'])}, " \
-               f"{sql_stringify_str_array(tweet['user_mentions_screen_names'])}, " \
-               f"{tweet['in_reply_to_status_id']}, " \
-               f"{tweet['in_reply_to_user_id']}, " \
-               f"'{tweet['in_reply_to_screen_name']}', " \
-               f"{tweet['retweet_count']}, " \
-               f"{tweet['favorite_count']}, " \
-               f"{tweet['followers_count']}, " \
-               f"{tweet['friends_count']}, " \
-               f"{tweet['statuses_count']}, " \
-               f"{sql_stringify_str_array(tweet['hashtags'])}, " \
-               f"{sql_stringify_str_array(tweet['urls'])}, " \
-               f"{sql_stringify_str_array(tweet['symbols'])}, " \
-               f"{sql_stringify_str_array(tweet['media_urls'])}, " \
-               f"'{tweet['text']}', " \
-             ");"

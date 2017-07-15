@@ -6,6 +6,7 @@
 %aimport os
 
 from twitter import import_data
+from twitter.models import Tweet
 
 bucket_name = 'gly.fish'
 tempdir = tempfile.gettempdir()
@@ -30,4 +31,5 @@ files = os.listdir(os.path.join(local_dir, date_dir))
 tweets = import_data.read_from_file(os.path.join(local_dir, date_dir, files[0]))
 tweet = tweets[101]
 flat_tweet = import_data.flatten_tweet(tweet)
+Tweet.create(**flat_tweet)
 tweet_insert_sql = import_data.insert_tweet_sql(flat_tweet)
