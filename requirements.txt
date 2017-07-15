@@ -29,6 +29,7 @@ nbconvert==5.2.1
 nbformat==4.3.0
 notebook==5.0.0
 pandocfilters==1.4.1
+peewee==2.10.1
 pexpect==4.2.1
 pickleshare==0.7.4
 prompt-toolkit==1.0.14
