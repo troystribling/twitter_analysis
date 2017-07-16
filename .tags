@@ -25,8 +25,10 @@ date	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
 date_dir	notebooks/import_data_notebook.py	/^date_dir = '20170707'$/;"	v
 daterange	twitter/import_data.py	/^def daterange(date1, date2):$/;"	f
 db_table	twitter/models.py	/^        db_table = 'tweets'$/;"	v	class:Tweet.Meta
+doanload_from_s3_and_create_tweets	twitter/import_data.py	/^def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date):$/;"	f
 download_from_s3_to_files	twitter/import_data.py	/^def download_from_s3_to_files(bucket, remote_dir, local_dir, download_limit=None, start_date=None, end_date=None):$/;"	f
 download_limit	notebooks/import_data_notebook.py	/^download_limit = 5$/;"	v
+end_date	notebooks/import_data_notebook.py	/^end_date = '20170703'$/;"	v
 favorite_count	twitter/models.py	/^    favorite_count = BigIntegerField()$/;"	v	class:Tweet
 files	notebooks/import_data_notebook.py	/^files = os.listdir(os.path.join(local_dir, date_dir))$/;"	v
 flatten_tweet	twitter/import_data.py	/^def flatten_tweet(tweet):$/;"	f
@@ -50,6 +52,7 @@ psycopg2	twitter/import_data.py	/^import psycopg2$/;"	i
 read_from_file	twitter/import_data.py	/^def read_from_file(file_name):$/;"	f
 remote_dir	notebooks/import_data_notebook.py	/^remote_dir = 'tweets\/public_stream'$/;"	v
 retweet_count	twitter/models.py	/^    retweet_count = BigIntegerField()$/;"	v	class:Tweet
+start_date	notebooks/import_data_notebook.py	/^start_date = '20170626'$/;"	v
 statuses_count	twitter/models.py	/^    statuses_count = BigIntegerField()$/;"	v	class:Tweet
 step	migrations/20170708_01_IszI3-create-tweets.py	/^from yoyo import step$/;"	i
 steps	migrations/20170708_01_IszI3-create-tweets.py	/^steps = [$/;"	v

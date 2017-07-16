@@ -44,7 +44,6 @@ def download_from_s3_to_files(bucket, remote_dir, local_dir, download_limit=None
                 s3_client.download_fileobj(bucket, remote_file_name, local_file)
             call(f'lzop -d {local_file_name}', shell=True)
             os.unlink(local_file_name)
-            print(downloaded_file_count)
             if download_limit != None and downloaded_file_count >= download_limit:
                 break
     print(f'DOWNLOADED {downloaded_file_count} files from {remote_dir} to {local_dir}')
@@ -106,3 +105,23 @@ def create_tweets_from_file(file_path, batch_size=100):
     with database.atomic():
         for i in range(0, len(flat_tweets), batch_size):
             Tweet.insert_many(flat_tweets[i:i+batch_size]).execute()
+
+def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date, batch_size=100):
+    if start_date is None:
+        start_date = date.today()
+    else:
+        start_date = parse(start_date)
+    if end_date is None:
+        end_date = date.today()
+    else:
+        end_date = parse(end_date)
+
+    download_from_s3_to_files(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date)
+
+    for day in daterange(start_date, end_date):
+        date_dir = day.strftime('%Y%m%d')
+        file_dir = os.path.join(local_dir, date_dir)
+        file_names = os.listdir(file_dir)
+        for file_name in file_names:
+            file_path = os.path.join(file_dir, file_name)
+            create_tweets_from_file(file_path, batch_size)

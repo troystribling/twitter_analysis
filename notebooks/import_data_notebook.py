@@ -25,7 +25,8 @@ tweet['entities']
 
 # %%
 # create database models
+remote_dir = 'tweets/public_stream'
 local_dir = os.path.join(tempdir, 'tweets/public_stream')
-date_dir = '20170707'
-files = os.listdir(os.path.join(local_dir, date_dir))
-import_data.create_tweets_from_file(os.path.join(local_dir, date_dir, files[0]))
+start_date = '20170626'
+end_date = '20170703'
+import_data.download_from_s3_to_files(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date)
