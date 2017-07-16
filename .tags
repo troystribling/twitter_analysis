@@ -14,28 +14,35 @@ __all__	twitter/__init__.py	/^__all__ = ["import_data", "models"]$/;"	v
 __depends__	migrations/20170708_01_IszI3-create-tweets.py	/^__depends__ = {}$/;"	v
 array_field_if_exists	twitter/import_data.py	/^def array_field_if_exists(tweet, key1, key2, key3):$/;"	f
 boto3	twitter/import_data.py	/^import boto3$/;"	i
+bucket_name	bin/download_tweets.py	/^bucket_name = 'gly.fish'$/;"	v
 bucket_name	notebooks/import_data_notebook.py	/^bucket_name = 'gly.fish'$/;"	v
 call	twitter/import_data.py	/^from subprocess import call$/;"	i
 create_tweets_from_file	twitter/import_data.py	/^def create_tweets_from_file(file_path, batch_size=100):$/;"	f
+create_tweets_from_files	twitter/import_data.py	/^def create_tweets_from_files(local_dir, start_date=None, end_date=None, batch_size=100):$/;"	f
 created_at	twitter/models.py	/^    created_at = DateTimeTZField()$/;"	v	class:Tweet
 database	twitter/import_data.py	/^from .models import Tweet, database$/;"	i
 database	twitter/models.py	/^        database = database$/;"	v	class:BaseModel.Meta
 database	twitter/models.py	/^database = PostgresqlDatabase('tweets', **{'user': 'tweets'})$/;"	v
+date	bin/download_tweets.py	/^from datetime import timedelta, date$/;"	i
 date	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
 date_dir	notebooks/import_data_notebook.py	/^date_dir = '20170707'$/;"	v
 daterange	twitter/import_data.py	/^def daterange(date1, date2):$/;"	f
 db_table	twitter/models.py	/^        db_table = 'tweets'$/;"	v	class:Tweet.Meta
-doanload_from_s3_and_create_tweets	twitter/import_data.py	/^def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date):$/;"	f
+doanload_from_s3_and_create_tweets	twitter/import_data.py	/^def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start_date=None, end_date=None, batch_size=100):$/;"	f
 download_from_s3_to_files	twitter/import_data.py	/^def download_from_s3_to_files(bucket, remote_dir, local_dir, download_limit=None, start_date=None, end_date=None):$/;"	f
 download_limit	notebooks/import_data_notebook.py	/^download_limit = 5$/;"	v
+end_date	bin/download_tweets.py	/^    end_date = sys.argv[2]$/;"	v
+end_date	bin/download_tweets.py	/^end_date = start_date$/;"	v
 end_date	notebooks/import_data_notebook.py	/^end_date = '20170703'$/;"	v
 favorite_count	twitter/models.py	/^    favorite_count = BigIntegerField()$/;"	v	class:Tweet
+file_path	bin/download_tweets.py	/^file_path = os.path.dirname(os.path.join(os.getcwd(), __file__))$/;"	v
 files	notebooks/import_data_notebook.py	/^files = os.listdir(os.path.join(local_dir, date_dir))$/;"	v
 flatten_tweet	twitter/import_data.py	/^def flatten_tweet(tweet):$/;"	f
 followers_count	twitter/models.py	/^    followers_count = BigIntegerField()$/;"	v	class:Tweet
 friends_count	twitter/models.py	/^    friends_count = BigIntegerField()$/;"	v	class:Tweet
 hashtags	twitter/models.py	/^    hashtags = ArrayField(TextField)$/;"	v	class:Tweet
 id	twitter/models.py	/^    id = BigIntegerField(primary_key=True, null=False, unique=True)$/;"	v	class:Tweet
+import_data	bin/download_tweets.py	/^from twitter import import_data$/;"	i
 import_data	notebooks/import_data_notebook.py	/^from twitter import import_data$/;"	i
 import_tweets_to_database	twitter/import_data.py	/^def import_tweets_to_database(local_dir, database_cusror):$/;"	f
 in_reply_to_screen_name	twitter/models.py	/^    in_reply_to_screen_name = TextField()$/;"	v	class:Tweet
@@ -43,24 +50,34 @@ in_reply_to_status_id	twitter/models.py	/^    in_reply_to_status_id = BigInteger
 in_reply_to_user_id	twitter/models.py	/^    in_reply_to_user_id = BigIntegerField()$/;"	v	class:Tweet
 json	twitter/import_data.py	/^import json$/;"	i
 lang	twitter/models.py	/^    lang = CharField()$/;"	v	class:Tweet
+local_dir	bin/download_tweets.py	/^local_dir = os.path.join(tempdir, 'tweets\/public_stream')$/;"	v
 local_dir	notebooks/import_data_notebook.py	/^local_dir = os.path.join(tempdir, 'tweets\/public_stream')$/;"	v
 media_urls	twitter/models.py	/^    media_urls = ArrayField(TextField)$/;"	v	class:Tweet
+os	bin/download_tweets.py	/^import os$/;"	i
 os	notebooks/import_data_notebook.py	/^%aimport os$/;"	i
 os	twitter/import_data.py	/^import os$/;"	i
+parse	bin/download_tweets.py	/^from dateutil.parser import parse$/;"	i
 parse	twitter/import_data.py	/^from dateutil.parser import parse$/;"	i
 psycopg2	twitter/import_data.py	/^import psycopg2$/;"	i
 read_from_file	twitter/import_data.py	/^def read_from_file(file_name):$/;"	f
+remote_dir	bin/download_tweets.py	/^remote_dir = 'tweets\/public_stream'$/;"	v
 remote_dir	notebooks/import_data_notebook.py	/^remote_dir = 'tweets\/public_stream'$/;"	v
 retweet_count	twitter/models.py	/^    retweet_count = BigIntegerField()$/;"	v	class:Tweet
+start_date	bin/download_tweets.py	/^    start_date = sys.argv[1]$/;"	v
+start_date	bin/download_tweets.py	/^start_date = date.today().strftime('%Y%m%d')$/;"	v
 start_date	notebooks/import_data_notebook.py	/^start_date = '20170626'$/;"	v
 statuses_count	twitter/models.py	/^    statuses_count = BigIntegerField()$/;"	v	class:Tweet
 step	migrations/20170708_01_IszI3-create-tweets.py	/^from yoyo import step$/;"	i
 steps	migrations/20170708_01_IszI3-create-tweets.py	/^steps = [$/;"	v
 symbols	twitter/models.py	/^    symbols = ArrayField(TextField)$/;"	v	class:Tweet
+sys	bin/download_tweets.py	/^import sys$/;"	i
+tempdir	bin/download_tweets.py	/^tempdir = tempfile.gettempdir()$/;"	v
 tempdir	notebooks/import_data_notebook.py	/^tempdir = tempfile.gettempdir()$/;"	v
+tempfile	bin/download_tweets.py	/^import tempfile$/;"	i
 tempfile	notebooks/import_data_notebook.py	/^%aimport tempfile$/;"	i
 tempfile	twitter/import_data.py	/^import tempfile$/;"	i
 text	twitter/models.py	/^    text = TextField()$/;"	v	class:Tweet
+timedelta	bin/download_tweets.py	/^from datetime import timedelta, date$/;"	i
 timedelta	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
 tweet	notebooks/import_data_notebook.py	/^tweet = tweets[909]$/;"	v
 tweets	notebooks/import_data_notebook.py	/^tweets = import_data.read_from_file(os.path.join(local_dir, folder_date, files[0]))$/;"	v

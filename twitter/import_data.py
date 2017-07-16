@@ -27,16 +27,19 @@ def download_from_s3_to_files(bucket, remote_dir, local_dir, download_limit=None
     s3_client = boto3.client('s3')
     s3_resource = boto3.resource('s3')
 
+    total_downloaded_file_count = 0
     downloaded_file_count = 0
 
     for day in daterange(start_date, end_date):
         day_dir = day.strftime('%Y%m%d')
+        print(f"DOWNLOADING {day_dir}")
         remote_day_dir = f"{remote_dir}/{day_dir}"
         local_day_dir = f"{local_dir}/{day_dir}"
         if not os.path.exists(local_day_dir):
             os.makedirs(local_day_dir)
         remote_objects = s3_resource.Bucket(bucket).objects.filter(Prefix=remote_day_dir)
         for remote_object in remote_objects:
+            total_downloaded_file_count += 1
             downloaded_file_count += 1
             remote_file_name = remote_object.key
             local_file_name = f"{local_day_dir}/{os.path.basename(remote_file_name)}"
@@ -44,9 +47,11 @@ def download_from_s3_to_files(bucket, remote_dir, local_dir, download_limit=None
                 s3_client.download_fileobj(bucket, remote_file_name, local_file)
             call(f'lzop -d {local_file_name}', shell=True)
             os.unlink(local_file_name)
-            if download_limit != None and downloaded_file_count >= download_limit:
+            if download_limit != None and total_downloaded_file_count >= download_limit:
                 break
-    print(f'DOWNLOADED {downloaded_file_count} files from {remote_dir} to {local_dir}')
+        print(f'DOWNLOADED {downloaded_file_count} files from {remote_day_dir} to {local_day_dir}')
+        downloaded_file_count = 0
+    print(f'DOWNLOADED {total_downloaded_file_count} files from {remote_dir} to {local_dir}')
 
 def read_from_file(file_name):
     items = []
@@ -106,7 +111,7 @@ def create_tweets_from_file(file_path, batch_size=100):
         for i in range(0, len(flat_tweets), batch_size):
             Tweet.insert_many(flat_tweets[i:i+batch_size]).execute()
 
-def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date, batch_size=100):
+def create_tweets_from_files(local_dir, start_date=None, end_date=None, batch_size=100):
     if start_date is None:
         start_date = date.today()
     else:
@@ -116,12 +121,15 @@ def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start
     else:
         end_date = parse(end_date)
 
-    download_from_s3_to_files(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date)
-
     for day in daterange(start_date, end_date):
         date_dir = day.strftime('%Y%m%d')
+        print(f"IMPORTING {date_dir}")
         file_dir = os.path.join(local_dir, date_dir)
         file_names = os.listdir(file_dir)
         for file_name in file_names:
             file_path = os.path.join(file_dir, file_name)
             create_tweets_from_file(file_path, batch_size)
+
+def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start_date=None, end_date=None, batch_size=100):
+    download_from_s3_to_files(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date)
+    create_tweets_from_files(local_dir, start_date=start_date, end_date=end_date, batch_size=100)
