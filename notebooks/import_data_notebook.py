@@ -28,8 +28,4 @@ tweet['entities']
 local_dir = os.path.join(tempdir, 'tweets/public_stream')
 date_dir = '20170707'
 files = os.listdir(os.path.join(local_dir, date_dir))
-tweets = import_data.read_from_file(os.path.join(local_dir, date_dir, files[0]))
-tweet = tweets[101]
-flat_tweet = import_data.flatten_tweet(tweet)
-Tweet.create(**flat_tweet)
-tweet_insert_sql = import_data.insert_tweet_sql(flat_tweet)
+import_data.create_tweets_from_file(os.path.join(local_dir, date_dir, files[0]))

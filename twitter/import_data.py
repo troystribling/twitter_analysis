@@ -7,7 +7,7 @@ import psycopg2
 from subprocess import call
 from datetime import timedelta, date
 from dateutil.parser import parse
-from .models import Tweet
+from .models import Tweet, database
 
 def daterange(date1, date2):
     for n in range(int((date2 - date1).days) + 1):
@@ -73,18 +73,12 @@ def array_field_if_exists(tweet, key1, key2, key3):
     return value
 
 def flatten_tweet(tweet):
-    created_at = None
-    if 'created_at' in tweet:
-        created_at = parse(tweet['created_at'])
-    user_created_at = None
-    if 'user_created_at' in tweet['user']:
-        user_created_at = parse(tweet['user']['created_at'])
     return {
             'id' : tweet['id'],
-            'created_at' : created_at,
+            'created_at' : parse(tweet['created_at']),
             'lang' : tweet['lang'],
             'user_id' : tweet['user']['id'],
-            'user_created_at' : user_created_at,
+            'user_created_at' : parse(tweet['user']['created_at']),
             'user_name' : tweet['user']['name'],
             'user_screen_name' : tweet['user']['screen_name'],
             'user_lang' : tweet['user']['lang'],
@@ -105,3 +99,10 @@ def flatten_tweet(tweet):
             'media_urls' : array_field_if_exists(tweet, 'entities', 'media', 'media_url'),
             'text' : tweet['text']
             }
+
+def create_tweets_from_file(file_path, batch_size=100):
+    tweets = read_from_file(file_path)
+    flat_tweets = [flatten_tweet(tweet) for tweet in tweets]
+    with database.atomic():
+        for i in range(0, len(flat_tweets), batch_size):
+            Tweet.insert_many(flat_tweets[i:i+batch_size]).execute()

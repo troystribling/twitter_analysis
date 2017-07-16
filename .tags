@@ -8,7 +8,7 @@ BaseModel	twitter/models.py	/^class BaseModel(Model):$/;"	c
 Meta	twitter/models.py	/^    class Meta:$/;"	c	class:BaseModel
 Meta	twitter/models.py	/^    class Meta:$/;"	c	class:Tweet
 Tweet	notebooks/import_data_notebook.py	/^from twitter.models import Tweet$/;"	i
-Tweet	twitter/import_data.py	/^from .models import Tweet$/;"	i
+Tweet	twitter/import_data.py	/^from .models import Tweet, database$/;"	i
 Tweet	twitter/models.py	/^class Tweet(BaseModel):$/;"	c
 __all__	twitter/__init__.py	/^__all__ = ["import_data", "models"]$/;"	v
 __depends__	migrations/20170708_01_IszI3-create-tweets.py	/^__depends__ = {}$/;"	v
@@ -16,7 +16,9 @@ array_field_if_exists	twitter/import_data.py	/^def array_field_if_exists(tweet, 
 boto3	twitter/import_data.py	/^import boto3$/;"	i
 bucket_name	notebooks/import_data_notebook.py	/^bucket_name = 'gly.fish'$/;"	v
 call	twitter/import_data.py	/^from subprocess import call$/;"	i
+create_tweets_from_file	twitter/import_data.py	/^def create_tweets_from_file(file_path, batch_size=100):$/;"	f
 created_at	twitter/models.py	/^    created_at = DateTimeTZField()$/;"	v	class:Tweet
+database	twitter/import_data.py	/^from .models import Tweet, database$/;"	i
 database	twitter/models.py	/^        database = database$/;"	v	class:BaseModel.Meta
 database	twitter/models.py	/^database = PostgresqlDatabase('tweets', **{'user': 'tweets'})$/;"	v
 date	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
@@ -27,19 +29,18 @@ download_from_s3_to_files	twitter/import_data.py	/^def download_from_s3_to_files
 download_limit	notebooks/import_data_notebook.py	/^download_limit = 5$/;"	v
 favorite_count	twitter/models.py	/^    favorite_count = BigIntegerField()$/;"	v	class:Tweet
 files	notebooks/import_data_notebook.py	/^files = os.listdir(os.path.join(local_dir, date_dir))$/;"	v
-flat_tweet	notebooks/import_data_notebook.py	/^flat_tweet = import_data.flatten_tweet(tweet)$/;"	v
 flatten_tweet	twitter/import_data.py	/^def flatten_tweet(tweet):$/;"	f
-followers_count	twitter/models.py	/^    followers_count = BigIntegerField(null=True)$/;"	v	class:Tweet
-friends_count	twitter/models.py	/^    friends_count = BigIntegerField(null=True)$/;"	v	class:Tweet
+followers_count	twitter/models.py	/^    followers_count = BigIntegerField()$/;"	v	class:Tweet
+friends_count	twitter/models.py	/^    friends_count = BigIntegerField()$/;"	v	class:Tweet
 hashtags	twitter/models.py	/^    hashtags = ArrayField(TextField)$/;"	v	class:Tweet
 id	twitter/models.py	/^    id = BigIntegerField(primary_key=True, null=False, unique=True)$/;"	v	class:Tweet
 import_data	notebooks/import_data_notebook.py	/^from twitter import import_data$/;"	i
 import_tweets_to_database	twitter/import_data.py	/^def import_tweets_to_database(local_dir, database_cusror):$/;"	f
-in_reply_to_screen_name	twitter/models.py	/^    in_reply_to_screen_name = TextField(null=True)$/;"	v	class:Tweet
-in_reply_to_status_id	twitter/models.py	/^    in_reply_to_status_id = BigIntegerField(null=True)$/;"	v	class:Tweet
-in_reply_to_user_id	twitter/models.py	/^    in_reply_to_user_id = BigIntegerField(null=True)$/;"	v	class:Tweet
+in_reply_to_screen_name	twitter/models.py	/^    in_reply_to_screen_name = TextField()$/;"	v	class:Tweet
+in_reply_to_status_id	twitter/models.py	/^    in_reply_to_status_id = BigIntegerField()$/;"	v	class:Tweet
+in_reply_to_user_id	twitter/models.py	/^    in_reply_to_user_id = BigIntegerField()$/;"	v	class:Tweet
 json	twitter/import_data.py	/^import json$/;"	i
-lang	twitter/models.py	/^    lang = CharField(null=True)$/;"	v	class:Tweet
+lang	twitter/models.py	/^    lang = CharField()$/;"	v	class:Tweet
 local_dir	notebooks/import_data_notebook.py	/^local_dir = os.path.join(tempdir, 'tweets\/public_stream')$/;"	v
 media_urls	twitter/models.py	/^    media_urls = ArrayField(TextField)$/;"	v	class:Tweet
 os	notebooks/import_data_notebook.py	/^%aimport os$/;"	i
@@ -48,27 +49,24 @@ parse	twitter/import_data.py	/^from dateutil.parser import parse$/;"	i
 psycopg2	twitter/import_data.py	/^import psycopg2$/;"	i
 read_from_file	twitter/import_data.py	/^def read_from_file(file_name):$/;"	f
 remote_dir	notebooks/import_data_notebook.py	/^remote_dir = 'tweets\/public_stream'$/;"	v
-retweet_count	twitter/models.py	/^    retweet_count = BigIntegerField(null=True)$/;"	v	class:Tweet
-statuses_count	twitter/models.py	/^    statuses_count = BigIntegerField(null=True)$/;"	v	class:Tweet
+retweet_count	twitter/models.py	/^    retweet_count = BigIntegerField()$/;"	v	class:Tweet
+statuses_count	twitter/models.py	/^    statuses_count = BigIntegerField()$/;"	v	class:Tweet
 step	migrations/20170708_01_IszI3-create-tweets.py	/^from yoyo import step$/;"	i
 steps	migrations/20170708_01_IszI3-create-tweets.py	/^steps = [$/;"	v
 symbols	twitter/models.py	/^    symbols = ArrayField(TextField)$/;"	v	class:Tweet
 tempdir	notebooks/import_data_notebook.py	/^tempdir = tempfile.gettempdir()$/;"	v
 tempfile	notebooks/import_data_notebook.py	/^%aimport tempfile$/;"	i
 tempfile	twitter/import_data.py	/^import tempfile$/;"	i
-text	twitter/models.py	/^    text = TextField(null=True)$/;"	v	class:Tweet
+text	twitter/models.py	/^    text = TextField()$/;"	v	class:Tweet
 timedelta	twitter/import_data.py	/^from datetime import timedelta, date$/;"	i
-tweet	notebooks/import_data_notebook.py	/^tweet = tweets[101]$/;"	v
 tweet	notebooks/import_data_notebook.py	/^tweet = tweets[909]$/;"	v
-tweet_insert_sql	notebooks/import_data_notebook.py	/^tweet_insert_sql = import_data.insert_tweet_sql(flat_tweet)$/;"	v
-tweets	notebooks/import_data_notebook.py	/^tweets = import_data.read_from_file(os.path.join(local_dir, date_dir, files[0]))$/;"	v
 tweets	notebooks/import_data_notebook.py	/^tweets = import_data.read_from_file(os.path.join(local_dir, folder_date, files[0]))$/;"	v
 urls	twitter/models.py	/^    urls = ArrayField(TextField)$/;"	v	class:Tweet
-user	twitter/models.py	/^    user = BigIntegerField(db_column='user_id', null=True)$/;"	v	class:Tweet
-user_created_at	twitter/models.py	/^    user_created_at = DateTimeTZField(null=True)$/;"	v	class:Tweet
-user_lang	twitter/models.py	/^    user_lang = CharField(null=True)$/;"	v	class:Tweet
+user_created_at	twitter/models.py	/^    user_created_at = DateTimeTZField()$/;"	v	class:Tweet
+user_id	twitter/models.py	/^    user_id = BigIntegerField()$/;"	v	class:Tweet
+user_lang	twitter/models.py	/^    user_lang = CharField()$/;"	v	class:Tweet
 user_mentions_ids	twitter/models.py	/^    user_mentions_ids = ArrayField(BigIntegerField)$/;"	v	class:Tweet
 user_mentions_names	twitter/models.py	/^    user_mentions_names = ArrayField(TextField)$/;"	v	class:Tweet
 user_mentions_screen_names	twitter/models.py	/^    user_mentions_screen_names = ArrayField(TextField)$/;"	v	class:Tweet
-user_name	twitter/models.py	/^    user_name = TextField(null=True)$/;"	v	class:Tweet
-user_screen_name	twitter/models.py	/^    user_screen_name = TextField(null=True)$/;"	v	class:Tweet
+user_name	twitter/models.py	/^    user_name = TextField()$/;"	v	class:Tweet
+user_screen_name	twitter/models.py	/^    user_screen_name = TextField()$/;"	v	class:Tweet
