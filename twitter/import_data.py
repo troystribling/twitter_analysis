@@ -121,15 +121,17 @@ def create_tweets_from_files(local_dir, start_date=None, end_date=None, batch_si
     else:
         end_date = parse(end_date)
 
+
     for day in daterange(start_date, end_date):
+        file_count = 0
         date_dir = day.strftime('%Y%m%d')
         print(f"IMPORTING {date_dir}")
         file_dir = os.path.join(local_dir, date_dir)
         file_names = os.listdir(file_dir)
+        print(file_dir)
+        print(file_names)
         for file_name in file_names:
+            file_count += 1
             file_path = os.path.join(file_dir, file_name)
             create_tweets_from_file(file_path, batch_size)
-
-def doanload_from_s3_and_create_tweets(bucket_name, remote_dir, local_dir, start_date=None, end_date=None, batch_size=100):
-    download_from_s3_to_files(bucket_name, remote_dir, local_dir, start_date=start_date, end_date=end_date)
-    create_tweets_from_files(local_dir, start_date=start_date, end_date=end_date, batch_size=100)
+            print(f"IMPORTED {file_count} from {file_path}")
