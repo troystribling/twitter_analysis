@@ -54,6 +54,7 @@ in_reply_to_status_id	twitter/models.py	/^    in_reply_to_status_id = BigInteger
 in_reply_to_user_id	twitter/models.py	/^    in_reply_to_user_id = BigIntegerField()$/;"	v	class:Tweet
 json	twitter/import_data.py	/^import json$/;"	i
 lang	twitter/models.py	/^    lang = CharField()$/;"	v	class:Tweet
+local_dir	bin/download_tweets.py	/^    local_dir = sys.argv[3]$/;"	v
 local_dir	bin/download_tweets.py	/^local_dir = os.path.join(tempdir, 'tweets\/public_stream')$/;"	v
 local_dir	bin/import_tweets_to_database.py	/^local_dir = os.path.join(tempdir, 'tweets\/public_stream')$/;"	v
 local_dir	notebooks/import_data_notebook.py	/^local_dir = os.path.join(tempdir, 'tweets\/public_stream')$/;"	v

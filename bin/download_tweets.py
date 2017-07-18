@@ -5,6 +5,7 @@ sys.path.append(os.path.join(file_path, '..'))
 
 from datetime import timedelta, date
 from dateutil.parser import parse
+import tempfile
 
 from twitter import import_data
 
@@ -16,9 +17,13 @@ end_date = start_date
 if len(sys.argv) > 2:
     end_date = sys.argv[2]
 
+tempdir = tempfile.gettempdir()
+local_dir = os.path.join(tempdir, 'tweets/public_stream')
+if len(sys.argv) > 3:
+    local_dir = sys.argv[3]
+
 bucket_name = 'gly.fish'
 remote_dir = 'tweets/public_stream'
-local_dir = '/Users/troy/Develop/Data/tweets/public_stream'
 
 print(f"DOWNLOADING {start_date} to {end_date}")
 print(f"BUCKET: {bucket_name}, REMOTE LOCATION: {remote_dir}, LOCAL LOCATION: {local_dir}")
